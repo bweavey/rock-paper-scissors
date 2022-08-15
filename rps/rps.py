@@ -1,21 +1,33 @@
 # Provides the main code flow for rock-paper-scissors.
 # rps/rps.py
 
+import sys
 import random
+
+from rps import art
 
 def main():
     print("Rock-paper-scissors called, choose rock, paper, or scissors.")
-    user_input = input("go on, choose: ")
-    user_choice = parse_input(user_input)
-    computer_choice = get_choice()
+    while True:
+        user_input = input("go on, choose: ")
+        user_choice = parse_input(user_input)
+        computer_choice = get_choice()
 
-    print(f"You chose: {user_choice}")
-    print(f"Computer chose: {computer_choice}")
+        print(f"You chose: {user_choice}")
+        print(art.choice_art[user_choice])
+        print(f"Computer chose: {computer_choice}")
+        print(art.choice_art[computer_choice])
 
-    results = compare_choices(user_choice, computer_choice)
-    declare_outcome(results)
+        results = compare_choices(user_choice, computer_choice)
+        declare_outcome(results)
+
+    print("I guess the game is over.")
 
 def parse_input(user_input):
+    if "quit" in user_input:
+        end_game()
+    elif user_input.lower() not in ["rock", "paper", "scissors"]:
+        return "invalid"
     return user_input.lower()
 
 def get_choice():
@@ -51,3 +63,7 @@ def declare_outcome(results):
         print("You won, how surprising")
     elif results == "invalid":
         print("Trying to flip the board, are we?")
+
+def end_game():
+    print("I suppose the game is over, then.")
+    sys.exit()
