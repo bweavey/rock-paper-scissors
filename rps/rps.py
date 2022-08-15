@@ -4,13 +4,18 @@
 import sys
 import random
 
-from rps import art
+from rps import art, text
 
 def main():
-    print("Rock-paper-scissors called, choose rock, paper, or scissors.")
+    print(art.banner)
+    input("Press Enter to continue.")
+    print(text.welcome_msg)
+    print(text.help_msg)
     while True:
-        user_input = input("go on, choose: ")
-        user_choice = parse_input(user_input)
+        user_choice = None
+        while user_choice == None:
+            user_input = input("go on, choose: ")
+            user_choice = parse_input(user_input)
         computer_choice = get_choice()
 
         print(f"You chose: {user_choice}")
@@ -26,6 +31,9 @@ def main():
 def parse_input(user_input):
     if "quit" in user_input:
         end_game()
+    elif "help" in user_input:
+        print(text.help_msg)
+        return None
     elif user_input.lower() not in ["rock", "paper", "scissors"]:
         return "invalid"
     return user_input.lower()
@@ -56,14 +64,14 @@ def compare_choices(user_choice, computer_choice):
 
 def declare_outcome(results):
     if results == "tie":
-        print("You tied, how exciting")
+        print("You tied, could be worse.")
     elif results == "loss":
-        print("You lost, how expected")
+        print("You lost, better luck next time.")
     elif results == "win":
-        print("You won, how surprising")
+        print("You won, well done!")
     elif results == "invalid":
         print("Trying to flip the board, are we?")
 
 def end_game():
-    print("I suppose the game is over, then.")
+    print("I suppose the game is over, then. Until next time!")
     sys.exit()
